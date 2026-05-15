@@ -7,33 +7,12 @@
       "config": {
         "includeFiles": [
           "views/**",
-          "public/**",
-          "models/**",
-          "routes/**",
-          "utils/**",
-          "middleware.js",
-          "cloudConfig.js"
+          "public/**"
         ]
       }
     }
   ],
   "routes": [
-    {
-      "src": "/css/(.*)",
-      "dest": "/public/css/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/public/js/$1"
-    },
-    {
-      "src": "/images/(.*)",
-      "dest": "/public/images/$1"
-    },
-    {
-      "src": "/qrcodes/(.*)",
-      "dest": "/public/qrcodes/$1"
-    },
     {
       "src": "/(.*)",
       "dest": "/api/index.js"
