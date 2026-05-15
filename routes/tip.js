@@ -3,8 +3,10 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const wrapAsync = require("../utils/wrapAsync.js");
 const bodyParser = require("body-parser");
-// Stripe payment
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Replace with your Secret Key
+// Stripe payment (initialize only if key is provided)
+const stripe = process.env.STRIPE_SECRET_KEY && process.env.STRIPE_SECRET_KEY !== 'mock'
+  ? require('stripe')(process.env.STRIPE_SECRET_KEY)
+  : null;
 
 
 
@@ -44,6 +46,11 @@ router.post("/process-tip", async (req, res) => {
 
         if (paymentMethod === "stripe_card") {
             console.log("Processing Stripe card payment...");
+
+            if (!stripe) {
+                console.log("Error: Stripe is not configured.");
+                return res.redirect(`/hotel/tipEmployee/${employeeId}?success=false&message=Card%20payments%20not%20configured`);
+            }
             
             if (!stripePaymentMethodId) {
                 console.log("Error: Stripe payment method ID not provided.");
